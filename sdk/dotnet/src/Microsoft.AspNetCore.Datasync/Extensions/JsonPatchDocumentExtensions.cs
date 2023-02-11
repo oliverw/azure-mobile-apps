@@ -22,7 +22,7 @@ namespace Microsoft.AspNetCore.Datasync.Extensions
         /// <param name="path">The path</param>
         /// <param name="value">The value</param>
         /// <returns></returns>
-        internal static bool Contains<TEntity>(this JsonPatchDocument<TEntity> patch, string op, string path, object value) where TEntity : class, ITableData
+        internal static bool Contains<TEntity, TVersion>(this JsonPatchDocument<TEntity> patch, string op, string path, object value) where TEntity : class, ITableData<TVersion>
         {
             foreach (var operation in patch.Operations)
             {
@@ -41,7 +41,7 @@ namespace Microsoft.AspNetCore.Datasync.Extensions
         /// to adjust system properties, and only replace operations are allowed.
         /// </summary>
         /// <param name="patch">The patch document</param>
-        internal static bool ModifiesSystemProperties<TEntity>(this JsonPatchDocument<TEntity> patch, TEntity entity, out Dictionary<string, string[]> validationErrors) where TEntity : class, ITableData
+        internal static bool ModifiesSystemProperties<TEntity, TVersion>(this JsonPatchDocument<TEntity> patch, TEntity entity, out Dictionary<string, string[]> validationErrors) where TEntity : class, ITableData<TVersion>
         {
             validationErrors = new Dictionary<string, string[]>();
             bool returnValue = false;

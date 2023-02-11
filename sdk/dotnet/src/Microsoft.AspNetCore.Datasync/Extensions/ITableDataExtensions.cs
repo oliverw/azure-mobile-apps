@@ -13,7 +13,7 @@ namespace Microsoft.AspNetCore.Datasync.Extensions
         /// </summary>
         /// <param name="entity">The entity</param>
         /// <returns>The ETag</returns>
-        internal static string GetETag(this ITableData entity)
+        internal static string GetETag<TVersion>(this ITableData<TVersion> entity)
             => HasValidVersion(entity) ? $"\"{Convert.ToBase64String(entity.Version)}\"" : null;
 
         /// <summary>
@@ -21,7 +21,7 @@ namespace Microsoft.AspNetCore.Datasync.Extensions
         /// </summary>
         /// <param name="entity">The entity</param>
         /// <returns>True if the entities version is valid</returns>
-        internal static bool HasValidVersion(this ITableData entity)
+        internal static bool HasValidVersion<TVersion>(this ITableData<TVersion> entity)
             => entity?.Version?.Length > 0;
 
         /// <summary>
@@ -29,7 +29,7 @@ namespace Microsoft.AspNetCore.Datasync.Extensions
         /// </summary>
         /// <param name="entity">The entity</param>
         /// <returns>The <see cref="EntityTagHeaderValue"/></returns>
-        internal static EntityTagHeaderValue ToEntityTagHeaderValue(this ITableData entity)
+        internal static EntityTagHeaderValue ToEntityTagHeaderValue<TVersion>(this ITableData<TVersion> entity)
             => HasValidVersion(entity) ? new EntityTagHeaderValue(GetETag(entity)) : null;
     }
 }

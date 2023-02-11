@@ -16,7 +16,7 @@ namespace Microsoft.AspNetCore.Datasync.EFCore
     /// concurrency check instead of a byte[] based versioning concurrency
     /// check
     /// </summary>
-    public class ETagEntityTableData : ITableData
+    public class ETagEntityTableData : ITableData<byte[]>
     {
         /// <summary>
         /// The globally unique ID for this entity.
@@ -61,7 +61,7 @@ namespace Microsoft.AspNetCore.Datasync.EFCore
         /// </summary>
         /// <param name="other">The other entity</param>
         /// <returns>true if the entity matches and the system properties are set.</returns>
-        public bool Equals(ITableData other)
+        public bool Equals(ITableData<byte[]> other)
             => other != null
             && Id == other.Id
             && UpdatedAt == other.UpdatedAt

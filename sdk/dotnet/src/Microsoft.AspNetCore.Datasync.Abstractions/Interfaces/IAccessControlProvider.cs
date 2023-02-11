@@ -19,32 +19,8 @@ namespace Microsoft.AspNetCore.Datasync
     /// are allowed, and how to store any additional information to provide for authorization.</para>
     /// </summary>
     /// <typeparam name="TEntity">The type of entity within the table.</typeparam>
-    public interface IAccessControlProvider<TEntity> where TEntity : ITableData
+    public interface IAccessControlProvider<TEntity> : IAccessControlProvider<TEntity, byte[]>
+        where TEntity : ITableData<byte[]>
     {
-        /// <summary>
-        /// Returns a LINQ <see cref="Where{T}"/> predicate to limit the data that the client can
-        /// see.  Return null if you wish the client to see all data.
-        /// </summary>
-        /// <returns>A LINQ predicate.</returns>
-        Expression<Func<TEntity, bool>> GetDataView();
-
-        /// <summary>
-        /// Determines if the client is allowed to perform the <see cref="TableOperation"/> on
-        /// the provided entity.
-        /// </summary>
-        /// <param name="operation">The <see cref="TableOperation"/> being requested.</param>
-        /// <param name="entity">The entity being used.</param>
-        /// <param name="token">A cancellation token</param>
-        /// <returns>True if the operation is authorized.</returns>
-        Task<bool> IsAuthorizedAsync(TableOperation operation, TEntity entity, CancellationToken token = default);
-
-        /// <summary>
-        /// Updates the entity immediately prior to write operations with the data store to
-        /// support the chosen access control rules.
-        /// </summary>
-        /// <param name="operation">The <see cref="TableOperation"/> being requested.</param>
-        /// <param name="entity">The entity being used.</param>
-        /// <param name="token">A cancellation token</param>
-        Task PreCommitHookAsync(TableOperation operation, TEntity entity, CancellationToken token = default);
     }
 }

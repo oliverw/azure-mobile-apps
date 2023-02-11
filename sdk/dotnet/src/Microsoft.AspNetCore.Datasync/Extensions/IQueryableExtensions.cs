@@ -18,10 +18,11 @@ namespace Microsoft.AspNetCore.Datasync.Extensions
         /// Applies an optional data view to the query.
         /// </summary>
         /// <typeparam name="T">The type of entity</typeparam>
+        /// <typeparam name="TVersion"></typeparam>
         /// <param name="query">The current query</param>
         /// <param name="predicate"></param>
         /// <returns>The modified query</returns>
-        internal static IQueryable<T> ApplyDataView<T>(this IQueryable<T> query, Expression<Func<T, bool>> predicate) where T : ITableData
+        internal static IQueryable<T> ApplyDataView<T, TVersion>(this IQueryable<T> query, Expression<Func<T, bool>> predicate) where T : ITableData<TVersion>
             => predicate != null ? query.Where(predicate) : query;
 
         /// <summary>
@@ -29,11 +30,12 @@ namespace Microsoft.AspNetCore.Datasync.Extensions
         /// deleted items.
         /// </summary>
         /// <typeparam name="T"></typeparam>
+        /// <typeparam name="TVersion"></typeparam>
         /// <param name="query"></param>
         /// <param name="request"></param>
         /// <param name="softDelete"></param>
         /// <returns></returns>
-        internal static IQueryable<T> ApplyDeletedView<T>(this IQueryable<T> query, HttpRequest request, bool softDelete) where T : ITableData
+        internal static IQueryable<T> ApplyDeletedView<T, TVersion>(this IQueryable<T> query, HttpRequest request, bool softDelete) where T : ITableData<TVersion>
         {
             if (!softDelete)
             {

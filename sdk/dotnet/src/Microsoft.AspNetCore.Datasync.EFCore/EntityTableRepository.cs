@@ -35,7 +35,7 @@ namespace Microsoft.AspNetCore.Datasync.EFCore
         {
             // Type check - only known derivates are allowed.
             var typeInfo = typeof(TEntity);
-            if (!typeInfo.IsSubclassOf(typeof(EntityTableData)) && !typeInfo.IsSubclassOf(typeof(ETagEntityTableData)))
+            if (!typeInfo.IsSubclassOf(typeof(EntityTableData<>)) && !typeInfo.IsSubclassOf(typeof(ETagEntityTableData)))
             {
                 throw new InvalidCastException($"Entity type {typeof(TEntity).Name} is not a valid entity type.");
             }

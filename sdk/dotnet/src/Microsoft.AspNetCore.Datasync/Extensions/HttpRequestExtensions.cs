@@ -59,7 +59,7 @@ namespace Microsoft.AspNetCore.Datasync.Extensions
         /// </summary>
         /// <param name="entity">The entity to use as comparison</param>
         /// <param name="version">The version that was requested</param>
-        internal static void ParseConditionalRequest<TEntity>(this HttpRequest request, TEntity entity, out byte[] version) where TEntity : ITableData
+        internal static void ParseConditionalRequest<TEntity, TVersion>(this HttpRequest request, TEntity entity, out TVersion version) where TEntity : ITableData<TVersion>
         {
             var headers = request.GetTypedHeaders();
             var isFetch = request.Method.Equals("get", StringComparison.InvariantCultureIgnoreCase);
